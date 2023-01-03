@@ -33,9 +33,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: self-hosted
+          - os: macos
             build-target: Android
-          - os: self-hosted
+          - os: macos
             build-target: iOS
         
     steps:
