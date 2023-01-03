@@ -18,7 +18,7 @@ jobs:
     name: Get Unity Version from UPM package
     uses: Unity-UI-Extensions/reusableworkflows/.github/workflows/getunityversionfrompackage.yml@main
     with:
-      build-target: windows
+      build-target: self-hosted
 
   # Validate output parameters from the Validate-Environment job
   Check-Params-unityversion:
@@ -26,7 +26,7 @@ jobs:
     uses: Unity-UI-Extensions/reusableworkflows/.github/workflows/testparams.yml@main
     name: Test output from Validate
     with:
-      build-target: windows
+      build-target: self-hosted
       teststring: ${{ needs.validate-environment.outputs.unityversion }}
 
   # Check Unity Hub and Editor Environment
@@ -35,7 +35,7 @@ jobs:
     needs: [Check-Params-unityversion, validate-environment]
     uses: Unity-UI-Extensions/reusableworkflows/.github/workflows/validateunityinstall.yml@main
     with:
-      build-target: windows
+      build-target: self-hosted
       unityversion: ${{ needs.validate-environment.outputs.unityversion }}
 
   # Validate unityeditorversion output parameter from the Setup-Unity job
@@ -44,7 +44,7 @@ jobs:
     uses: Unity-UI-Extensions/reusableworkflows/.github/workflows/testparams.yml@main
     name: Test editor version from Setup-Unity
     with:
-      build-target: windows
+      build-target: self-hosted
       teststring: ${{ needs.Setup-Unity.outputs.unityeditorversion }}
 
   # Validate unityeditorinstalled output parameter from the Setup-Unity job
@@ -53,7 +53,7 @@ jobs:
     uses: Unity-UI-Extensions/reusableworkflows/.github/workflows/testparams.yml@main
     name: Test editor installed from Setup-Unity
     with:
-      build-target: windows
+      build-target: self-hosted
       teststring: ${{ needs.Setup-Unity.outputs.unityeditorinstalled }}
 
   Install-Unity-Editor:
@@ -62,7 +62,7 @@ jobs:
     uses: Unity-UI-Extensions/reusableworkflows/.github/workflows/installunityeditor.yml@main
     name: Install Unity Editor
     with:
-      build-target: windows
+      build-target: self-hosted
       unityversion: ${{ needs.Setup-Unity.outputs.unityeditorversion }}      
 
   # Run Unity unit tests defined in the package
@@ -71,7 +71,7 @@ jobs:
     needs: [Check-Params-editorversion, Setup-Unity]
     uses: Unity-UI-Extensions/reusableworkflows/.github/workflows/rununityunittests.yml@main
     with:
-      build-target: windows
+      build-target: self-hosted
       unityversion: ${{ needs.Setup-Unity.outputs.unityeditorversion }}
       dependencies: '{"dependancyname": "dependency repository"}'
       # Check inside yml file for instructions on dependencies
@@ -85,7 +85,7 @@ jobs:
     needs: Run-Unit-Tests
     uses: Unity-UI-Extensions/reusableworkflows/.github/workflows/upmrelease.yml@main
     with:
-      build-target: windows
+      build-target: self-hosted
     secrets:
       NPM_USER_EMAIL: ${{ secrets.NPM_USER_EMAIL }}
       NPM_USER_NAME: ${{ secrets.NPM_USER_NAME }}

@@ -33,18 +33,16 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: windows
+          - os: self-hosted
             build-target: Android
-          - os: windows
-            build-target: StandaloneWindows64
-          - os: windows
-            build-target: WSAPlayer
+          - os: self-hosted
+            build-target: iOS
         
     steps:
       - name: Script Version
         run: |
           echo "::group::Script Versioning"
-          $scriptVersion = "1.0.1"
+          $scriptVersion = "1.0.2"
           echo "Build Script Version: $scriptVersion"
           echo "::endgroup::"
         shell: pwsh       
